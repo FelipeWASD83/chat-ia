@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'">
+  <title>Chat IA</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="coluna topo-linha">
+      <h1>Chat IA</h1>
+      <div class="acoes">
+        <button id="nova" class="botao-texto" type="button">Nova conversa</button>
+        <button id="abrirConfig" class="botao-icone" type="button" aria-label="Configurações" title="Configurações">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conversa" class="conversa">
+    <div class="coluna" id="mensagens">
+      <div id="vazio" class="vazio">
+        <p class="vazio-titulo">Escolha o modelo e escreva embaixo.</p>
+        <p id="vazioAviso" class="vazio-aviso" hidden>Ainda não tem nenhuma chave salva. Abra a engrenagem, no canto de cima, e cole a da OpenAI e/ou a da Anthropic.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    <div class="coluna">
+      <div class="compositor">
+        <textarea id="texto" rows="1" placeholder="Escreva sua mensagem…" aria-label="Mensagem"></textarea>
+        <div class="compositor-barra">
+          <div class="modelo-area">
+            <button id="modeloBtn" class="modelo-botao" type="button" aria-haspopup="dialog" aria-expanded="false">
+              <span id="modeloRotulo"></span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+            </button>
+            <div id="balao" class="balao" role="dialog" aria-label="Modelo e raciocínio" hidden>
+              <div class="balao-col balao-modelos">
+                <h2>Modelo</h2>
+                <div id="listaModelos" class="lista-modelos"></div>
+              </div>
+              <div class="balao-col balao-raciocinio">
+                <h2>Raciocínio</h2>
+                <div id="listaEsforcos" class="lista-esforcos"></div>
+                <p id="dicaEsforco" class="dica"></p>
+              </div>
+            </div>
+          </div>
+          <button id="enviar" class="enviar" type="button" aria-label="Enviar mensagem" title="Enviar (Enter)">
+            <svg id="iconeEnviar" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+            <svg id="iconeParar" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" hidden><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="fundoConfig" class="fundo" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloConfig">
+      <h2 id="tituloConfig">Configurações</h2>
+
+      <div class="grupo">
+        <h3>Tema</h3>
+        <div class="segmentado" role="group" aria-label="Tema">
+          <button type="button" id="temaClaro" data-tema="light">Claro</button>
+          <button type="button" id="temaEscuro" data-tema="dark">Escuro</button>
+        </div>
+      </div>
+
+      <div class="grupo">
+        <h3>Chave da OpenAI (GPT)</h3>
+        <div class="linha-chave">
+          <input id="chaveOpenai" type="password" autocomplete="off" spellcheck="false" placeholder="sk-…" aria-label="Chave da OpenAI">
+          <button type="button" class="botao-texto perigo" id="removerOpenai" hidden>Remover</button>
+        </div>
+        <p class="estado-chave" id="estadoOpenai"></p>
+      </div>
+
+      <div class="grupo">
+        <h3>Chave da Anthropic (Claude)</h3>
+        <div class="linha-chave">
+          <input id="chaveAnthropic" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" aria-label="Chave da Anthropic">
+          <button type="button" class="botao-texto perigo" id="removerAnthropic" hidden>Remover</button>
+        </div>
+        <p class="estado-chave" id="estadoAnthropic"></p>
+      </div>
+
+      <p class="dica">As chaves ficam cifradas pelo Windows, só neste usuário deste PC. Campo vazio não muda a chave que já está salva.</p>
+      <p id="erroConfig" class="erro-config" hidden></p>
+
+      <div class="modal-rodape">
+        <button type="button" class="botao-texto" id="fecharConfig">Fechar</button>
+        <button type="button" class="botao-cheio" id="salvarConfig">Salvar chaves</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
