@@ -1,6 +1,6 @@
 {
   "name": "chat-ia",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chat simples com GPT e Claude, com a chave de cada um",
   "main": "main.js",
   "private": true,

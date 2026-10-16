@@ -1,3 +1,8 @@
+## 1.0.1 (16/10/2026)
+
+**Corrigido**
+- O `abrir.bat` dava "Unable to find Electron app" porque o caminho da pasta terminava em barra invertida e escapava a aspas. Agora abre a janela.
+
 ## 1.0.0 (16/10/2026)
 
 **Novo**
